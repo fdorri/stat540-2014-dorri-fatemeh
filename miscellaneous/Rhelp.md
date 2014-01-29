@@ -95,11 +95,11 @@ x
 ```
 
 ```
-##        samp01  samp02  samp03
-## obs01  1.0972  0.9865 -0.3111
-## obs02 -0.3991 -1.0439 -1.3331
-## obs03  1.2484  1.4824 -1.2249
-## obs04 -1.0204  1.0177  0.4157
+##        samp01   samp02  samp03
+## obs01  0.6320 -0.40314  0.2128
+## obs02  1.1663 -1.18648  1.1213
+## obs03 -2.8974 -0.08162 -1.3045
+## obs04 -0.7578 -0.42204  0.1829
 ```
 
 
@@ -126,12 +126,7 @@ An ordered collection of objects (components). A list allows you to gather a var
 # matrix, and a scaler
 w <- list(name = "Fred", mynumbers = a, mymatrix = y, age = 5.3)
 
-# example of a list containing two lists
-v <- c(list1, list2)
-```
-
-```
-## Error: object 'list1' not found
+# example of a list containing two lists v <- c(list1,list2)
 ```
 
 **Some useful functions!**
@@ -304,7 +299,8 @@ runif(n)
 ```
 
 ```
-##  [1] 0.5719 0.3419 0.3808 0.5448 0.8209 0.8918 0.4909 0.6190 0.9235 0.5231
+##  [1] 0.29744 0.48195 0.47776 0.07999 0.85318 0.14187 0.81538 0.44066
+##  [9] 0.03024 0.62484
 ```
 
 **Normal distribution**
@@ -314,8 +310,8 @@ rnorm(n, sd = 1)
 ```
 
 ```
-##  [1] -0.63742  0.00215 -1.65924 -0.42414 -0.63822 -0.56084 -0.71680
-##  [8] -0.48265 -1.43870 -0.24561
+##  [1]  2.4085  0.6365 -0.6377 -0.8310 -1.4880  1.4428 -0.8839 -1.2107
+##  [9]  0.3049 -0.6503
 ```
 
 **Poisson distribution**
@@ -326,7 +322,7 @@ rpois(n, lambda)
 ```
 
 ```
-##  [1] 2 0 0 2 0 0 1 0 0 0
+##  [1] 0 1 1 0 1 0 1 0 2 2
 ```
 
 **Binomial Distribution**
@@ -338,7 +334,7 @@ rbinom(n, size, p)
 ```
 
 ```
-##  [1] 3 2 2 2 1 1 1 1 2 2
+##  [1] 2 0 2 1 0 2 1 3 2 1
 ```
 
 ```

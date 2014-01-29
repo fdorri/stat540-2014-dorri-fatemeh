@@ -64,7 +64,7 @@ An ordered collection of objects (components). A list allows you to gather a var
 w <- list(name="Fred", mynumbers=a, mymatrix=y, age=5.3)
 
 # example of a list containing two lists 
-v <- c(list1,list2)
+#v <- c(list1,list2)
 ```
 **Some useful functions!**
 ```
