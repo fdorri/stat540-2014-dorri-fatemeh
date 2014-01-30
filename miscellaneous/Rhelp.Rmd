@@ -53,7 +53,7 @@ e <- c("red", "white", "red", NA)
 f <- c(TRUE,TRUE,TRUE,FALSE)
 mydata <- data.frame(d,e,f)
 names(mydata) <- c("ID","Color","Passed") # variable names
-
+my <- data.frame(ID = d, Color = e, Passed = f) # create and name variable all at once
 ```
 **List**
 
