@@ -1,0 +1,73 @@
+Seminar 7
+========================================================
+
+
+```{r}
+library(ShortRead)
+library(Rsamtools)
+bamDat <- readAligned("drosophilaMelanogasterSubset.bam", type = "BAM")
+str(bamDat)
+#Filtering BAM Files
+library(easyRNASeq)
+nFilt <- nFilter(2)
+
+chrFilt <- chromosomeFilter(regex = "chr")
+filt <- compose(nFilt, chrFilt)
+bamDatFiltered <- bamDat[filt(bamDat)]
+
+#Examining BAM Data
+str(bamDatFiltered)
+levels(chromosome(bamDatFiltered))
+id(bamDatFiltered)[1:10]
+sread(bamDatFiltered)[1:10]
+quality(bamDatFiltered)[1:10]
+position(bamDatFiltered)[1:10]
+strand(bamDatFiltered)[1:10]
+
+#Accessing Genome Annotations
+library(BSgenome.Dmelanogaster.UCSC.dm3)
+(chrSizes <- seqlengths(Dmelanogaster))
+
+library(biomaRt)
+ensembl <- useMart("ensembl", dataset = "dmelanogaster_gene_ensembl")
+annotation.fields <- c("ensembl_gene_id", "strand", "chromosome_name", "start_position", 
+    "end_position")
+gene.annotation <- getBM(annotation.fields, mart = ensembl, filters = "chromosome_name", 
+    values = c("2L"))
+str(gene.annotation)
+levels(as.factor(gene.annotation$chromosome))
+gene.annotation$chromosome <- paste("chr", gene.annotation$chromosome_name, 
+    sep = "")
+
+levels(as.factor(gene.annotation$chromosome))
+gene.range <- RangedData(IRanges(start = gene.annotation$start_position, end = gene.annotation$end_position), 
+    space = gene.annotation$chromosome, strand = gene.annotation$strand, gene = gene.annotation$ensembl_gene_id, 
+    universe = "Dm3")
+
+show(gene.range)
+(cover <- coverage(bamDatFiltered, width = chrSizes))
+
+# Aggregating the coverage for each gene
+gene.coverage <- aggregate(cover[match(names(gene.range), names(cover))], ranges(gene.range), 
+    sum)
+
+# Finding the number of reads covering each gene
+gene.coverage <- ceiling(gene.coverage/unique(width(bamDat)))
+gene.coverage
+# Note that the number of entities with coverage count on chromosome 2L is
+# equal to the number of genes on chromosome 2L.
+length(gene.coverage[["chr2L"]])
+length(ranges(gene.range)$chr2L)
+countTable <- data.frame(chromosome = gene.range$space, gene_start = start(gene.range$ranges), 
+    gene_end = end(gene.range$ranges), strand = gene.range$strand, gene = gene.range$gene, 
+    count = as.vector(gene.coverage[["chr2L"]]))
+dim(countTable)
+head(countTable)
+countTable <- data.frame(chromosome = gene.range$space, gene_start = start(gene.range$ranges), 
+    gene_end = end(gene.range$ranges), strand = gene.range$strand, gene = gene.range$gene, 
+    count = as.vector(gene.coverage[["chr2L"]]), RPKM = (as.vector(gene.coverage[["chr2L"]])/(end(gene.range$ranges) - 
+        start(gene.range$ranges))) * (1e+09/length(bamDat)))
+head(countTable)
+```
+
+

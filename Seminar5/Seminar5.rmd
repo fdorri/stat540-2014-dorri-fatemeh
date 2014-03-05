@@ -34,7 +34,7 @@ str(newDat)
 
 head(newDat)
 tail(newDat)
-makeStripplot(newDat, pch = 20, cex = 1.3)
+makeStripplot(newDat, c)
 ```
 ```{r}
 luckyGenes <- c( "1456341_a_at")
